@@ -1,0 +1,1 @@
+export const ECOMMERCE_STORE="Ecommmerce Store";
