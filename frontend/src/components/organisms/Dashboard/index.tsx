@@ -119,6 +119,7 @@ const Dashboard = () => {
       .then((data) => {
         setRead(data.id);
         console.log(data.id);
+        window.location.reload();
       })
       .catch((e) => {
         console.log(e);
