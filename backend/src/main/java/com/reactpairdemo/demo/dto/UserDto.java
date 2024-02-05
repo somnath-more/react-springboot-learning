@@ -1,5 +1,6 @@
 package com.reactpairdemo.demo.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 import lombok.*;
@@ -10,10 +11,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UserDto {
-    private Long id;
-    private String email;
-    private String password;
+    @NotBlank(message = "Please Enter Name")
     private String name;
-    private Double contryPercentage;
-    private Long contryPayment;
+
+    private Double amountToPay;
 }

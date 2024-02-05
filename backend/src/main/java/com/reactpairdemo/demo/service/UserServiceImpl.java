@@ -1,8 +1,7 @@
 package com.reactpairdemo.demo.service;
 
-import com.reactpairdemo.demo.dto.BillDto;
+import com.reactpairdemo.demo.dto.ExplitBillDto;
 import com.reactpairdemo.demo.dto.UserDto;
-import com.reactpairdemo.demo.dto.UserPay;
 import com.reactpairdemo.demo.entity.User;
 import com.reactpairdemo.demo.exceptions.UserException;
 import com.reactpairdemo.demo.repo.UserRepository;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,16 +29,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> splitExpense(Long payeeId, List<Long> userIds) {
+    public List<UserDto> splitExpense(Long payeeId, ExplitBillDto explitBillDto) {
         //here will get all userIds
+        explitBillDto.getUserIds().add(payeeId);
         User user=userRepository.findById(payeeId).orElseThrow(()-> new UserException("Payee Id Not Found!!"));
-        Long totalBill=user.getContryPayment();
-        int totalCount=userIds.size();
+        Double totalBill= explitBillDto.getTotalAmount();
+        int totalCount=explitBillDto.getUserIds().size();
+
         List<UserDto> allUsers=new ArrayList<>();
+
         for(int i=0;i<totalCount;i++){
-            User user1=userRepository.findById(userIds.get(i)).orElseThrow(()-> new UserException("this  Id Not Exists!!"));
-             user1.setContryPayment(totalBill/totalCount);
-             user1.setContryPercentage((double)100/totalCount);
+            User user1=userRepository.findById(explitBillDto.getUserIds().get(i)).orElseThrow(()-> new UserException("this  Id Not Exists!!"));
+
+             user1.setAmountToPay(totalBill/totalCount);
              userRepository.save(user1);
              allUsers.add(this.modelMapper.map(user1, UserDto.class));
         }
@@ -49,17 +49,19 @@ public class UserServiceImpl implements UserService {
         return allUsers;
     }
 
-    @Override
-    public List<UserDto> getAllUsers() {
-        List<User> userList = userRepository.findAll();
-        return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
-    }
-
-    @Override
-    public UserDto payBill(Long userId, UserPay totalBill) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserException("Given Id Not Found!!"));
-        user.setContryPayment(totalBill.getTotalBill());
-        User user1 = userRepository.save(user);
-        return UserDto.builder().id(user1.getId()).contryPayment(user1.getContryPayment()).contryPercentage(user1.getContryPercentage()).name(user1.getName()).build();
-    }
+//    @Override
+//    public List<UserDto> getAllUsers() {
+//        List<User> userList = userRepository.findAll();
+//        return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public UserDto payBill(Long userId, UserPay totalBill) {
+//        User user = userRepository.findById(userId).orElseThrow(() -> new UserException("Given Id Not Found!!"));
+//        System.out.println("Inside here user");
+//        System.out.println(user);
+//        user.setContryPayment(totalBill.getTotalBill());
+//        User user1 = userRepository.save(user);
+//        return UserDto.builder().id(user1.getId()).contryPayment(user1.getContryPayment()).contryPercentage(user1.getContryPercentage()).name(user1.getName()).build();
+//    }
 }
