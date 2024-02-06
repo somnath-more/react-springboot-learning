@@ -1,19 +1,45 @@
 {
-  "posts": [
+  "todos": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
+      "name": "hello",
+      "description": "this is too",
+      "price": 45,
+      "id": 7
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "name": "hello",
+      "description": "ksksksk",
+      "price": 41,
+      "id": 12
+    },
+    {
+      "name": "sms",
+      "description": "smsm",
+      "price": 43,
+      "id": 13
+    },
+    {
+      "name": "sssssssssss",
+      "description": "sssssssssssssssssss",
+      "price": 44,
+      "id": 18
+    },
+    {
+      "id": 20,
+      "name": "slv",
+      "price": 39,
+      "description": "family"
+    },
+    {
+      "id": 21,
+      "name": "grate mourya",
+      "price": 40,
+      "description": "to study"
+    },
+    {
+      "name": "Madhu",
+      "description": "great guy",
+      "id": 22
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }
