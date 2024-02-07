@@ -7,12 +7,14 @@ import { Stack } from "@mui/system";
 
 interface PopupBoxProps {
   open: boolean;
-  name: string;
-  description: string;
-  handleTextFieldChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleDescriptionChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClose: () => void;
-  handleSubmit: () => void;
+  name?: string;
+  description?: string;
+  price?: number;
+  handleTextFieldChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDescriptionChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePriceChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClose?: () => void;
+  handleSubmit?: () => void;
 }
 
 const StyledBox = styled(Modal)({
@@ -22,15 +24,17 @@ const StyledBox = styled(Modal)({
   transform: "translate(-50%, -50%)",
   width: 400,
   height: "auto",
-  bgcolor: "gray",
+  backgroundColor: "white",
   border: "1px solid black",
   boxShadow: "20px",
 });
 const PopupBox = ({
   name,
+  price,
   description,
   handleTextFieldChange,
   handleDescriptionChange,
+  handlePriceChange,
   open,
   handleClose,
   handleSubmit,
@@ -52,6 +56,11 @@ const PopupBox = ({
           value={description}
           placeholder="Please update or add an description"
           onChange={handleDescriptionChange}
+        />
+        <TextField
+          value={price}
+          placeholder="Please update or add an Price"
+          onChange={handlePriceChange}
         />
         <Button
           variant="contained"

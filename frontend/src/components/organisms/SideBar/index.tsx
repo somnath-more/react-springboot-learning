@@ -7,7 +7,7 @@ const StackContainer = styled(Stack)({
   gap: "20px",
   height: "auto",
   width: "200px",
-  backgroundColor: "lightblue",
+  backgroundColor: "green",
 });
 const SideBar = () => {
   const navigate = useNavigate();

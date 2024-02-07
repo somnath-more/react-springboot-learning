@@ -1,45 +1,49 @@
 {
   "todos": [
     {
+      "id": 7,
       "name": "hello",
       "description": "this is too",
-      "price": 45,
-      "id": 7
+      "price": 45
     },
     {
+      "id": 12,
       "name": "hello",
       "description": "ksksksk",
-      "price": 41,
-      "id": 12
+      "price": "63",
+      "isChecked": true
     },
     {
       "name": "sms",
       "description": "smsm",
       "price": 43,
+      "isChecked": false,
       "id": 13
     },
     {
       "name": "sssssssssss",
       "description": "sssssssssssssssssss",
       "price": 44,
+      "isChecked": false,
       "id": 18
     },
     {
-      "id": 20,
-      "name": "slv",
-      "price": 39,
-      "description": "family"
+      "name": "sssssssssssss",
+      "description": "sssssssssssssssssssss",
+      "price": 0,
+      "id": 19
     },
     {
-      "id": 21,
-      "name": "grate mourya",
-      "price": 40,
-      "description": "to study"
-    },
-    {
-      "name": "Madhu",
+      "name": "ashutosh",
       "description": "great guy",
-      "id": 22
+      "price": "0555",
+      "id": 20
+    },
+    {
+      "name": "shivam",
+      "description": "master in speaking",
+      "price": "6666",
+      "id": 21
     }
   ]
 }

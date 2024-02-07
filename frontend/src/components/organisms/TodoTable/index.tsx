@@ -1,8 +1,10 @@
 import styled from "@emotion/styled";
 import {
   Box,
+  Checkbox,
   Icon,
   IconButton,
+  Modal,
   Table,
   TableBody,
   TableCell,
@@ -24,23 +26,26 @@ import Button from "../../atoms/Button";
 import TextField from "../../atoms/TextField";
 import PopupBox from "../../molecules/PopupBox";
 import { TODO_LIST, tableHeader } from "../../../utils/constant";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"; //
+import CheckListModal from "../../molecules/CheckListModal";
+
 const TodoTableContainer = styled(Box)({
   display: "flex",
   width: "100%",
   flexDirection: "column",
-  backgroundColor: "black",
 });
 const TableBox = styled(Box)({
   display: "flex",
   flexDirection: "column",
-  backgroundColor: "green",
 });
 
-interface TodoTableProps {
+export interface TodoTableProps {
   id: number;
   name: string;
   description: string;
-  price: string;
+  price: number;
+  isChecked: boolean;
 }
 
 const SearchContainer = styled(Box)({
@@ -48,7 +53,6 @@ const SearchContainer = styled(Box)({
   flexDirection: "row",
   justifyContent: "space-between",
   alignItems: "center",
-  background: "pink",
   width: "100%",
 });
 const TodoTable = () => {
@@ -57,17 +61,24 @@ const TodoTable = () => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
   const [isEditable, setIsEditable] = useState(false);
   const [id, setId] = useState(0);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [isChecked, setIsChecked] = useState(false);
+  const [filterData, setFilterData] = useState<TodoTableProps[]>([]);
+  const [post, setPost] = useState(0);
   useEffect(() => {
     GET_ALL_TODO_DATA().then((res) => {
       setTodoData(res);
     });
-  });
+  }, [post]);
+
   const handleAdd = () => {
     const data = {
       name: name,
       description: description,
+      price: price,
     };
     console.log("I am adding");
     ADD_TODO(data).then((res) => {
@@ -76,6 +87,8 @@ const TodoTable = () => {
       console.log("success");
       setName("");
       setDescription("");
+      setPrice(0);
+      setPost(post + 1);
     });
     setOpen(false);
   };
@@ -87,6 +100,7 @@ const TodoTable = () => {
       id: id,
       name: name,
       description: description,
+      price: price,
     };
     console.log("I am updating");
     UPDATE_TODO(data).then((res) => {
@@ -96,18 +110,22 @@ const TodoTable = () => {
       setName("");
       setDescription("");
       setIsEditable(false);
+      setPost(post + 1);
     });
     setOpen(false);
   };
+
   const handleEditClick = (data: {
     id: number;
     name: string;
     description: string;
+    price: number;
   }) => {
     setOpen(true);
     setId(data.id);
     setName(data.name);
     setDescription(data.description);
+    setPrice(data.price);
     setIsEditable(true);
     console.log("Edit clicked");
     console.log(data);
@@ -125,12 +143,52 @@ const TodoTable = () => {
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(e.target.value);
   };
-
+  const handleAddPriceChange = (e: any) => {
+    setPrice(e.target.value);
+  };
   const handleClose = () => {
     setOpen(false);
     console.log("I am close");
   };
+  var totalPrice = todoData.reduce((acc, item) => {
+    return acc + Number(item.price);
+  }, 0);
 
+  const handleSort = (key: string) => {
+    // const sortedData = [...todoData];
+    // sortedData.sort((a, b) => a.price - b.price).reverse();
+    // setTodoData(sortedData);
+
+    const sortedData = [...todoData];[1,2,3]
+    sortedData.sort((a, b) => {
+      if (a.price < b.price) return sortOrder === "asc" ? -1 : 1;
+      if (a.price > b.price) return sortOrder === "asc" ? 1 : -1;
+      // if (a.price > b.price) return a.brice - b.price;
+      return 0;
+    });
+
+    setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
+    setTodoData(sortedData);
+  };
+  const AddToCheckList = (id: number) => {
+    const updatedTodoData = todoData.map((todo) =>
+      todo.id === id ? { ...todo, isChecked: !todo.isChecked } : todo
+    );
+
+    setTodoData(updatedTodoData);
+  };
+
+  const ViewCheckList = () => {
+    console.log("ViewCheckList called");
+    const filteredSelectedData = todoData.filter(
+      (todo) => todo.isChecked === true
+    );
+
+    console.log(filteredSelectedData);
+    setFilterData(filteredSelectedData);
+    setIsChecked(!isChecked);
+  };
+  console.log("TotalPrice" + totalPrice);
   return (
     <TodoTableContainer>
       <Typography variant="h4" color={"white"} sx={{ textAlign: "center" }}>
@@ -143,19 +201,37 @@ const TodoTable = () => {
           sx={{ height: "100%" }}
           onChange={(e) => setSearchData(e.target.value)}
         />
-        <Button
-          onClick={handleAddClick}
-          startIcon={<AddIcon />}
-          variant="outlined"
-        >
-          Add
-        </Button>
+        <Box sx={{ display: "flex", gap: "10px" }}>
+          <Button
+            onClick={handleAddClick}
+            startIcon={<AddIcon />}
+            variant="outlined"
+          >
+            Add {totalPrice}
+          </Button>
+          <Button onClick={ViewCheckList} variant="outlined">
+            Add CheckList
+          </Button>
+          {isChecked ? (
+            <div>
+              <CheckListModal
+                handleClose={() => setIsChecked(false)}
+                data={filterData}
+                open={isChecked}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
+        </Box>
       </SearchContainer>
       {open && (
         <PopupBox
           open={open}
           name={name}
           description={description}
+          price={price}
+          handlePriceChange={handleAddPriceChange}
           handleTextFieldChange={handleTextFieldChange}
           handleDescriptionChange={handleDescriptionChange}
           handleClose={handleClose}
@@ -166,14 +242,26 @@ const TodoTable = () => {
         <Table>
           <TableHead>
             <TableRow>
-              {tableHeader.map((element) => (
+              {/* {tableHeader.map((element) => (
                 <TableCell>{element}</TableCell>
-              ))}
-              {/* <TableCell>{"ID"}</TableCell>
+              ))} */}
+              <TableCell>{<Checkbox />}</TableCell>
+              <TableCell>{"ID"}</TableCell>
               <TableCell>{"Name"}</TableCell>
               <TableCell>{"Description"}</TableCell>
+
+              <TableCell>
+                <Button
+                  startIcon={<ArrowUpwardIcon />}
+                  variant="text"
+                  endIcon={<ArrowDownwardIcon />}
+                  onClick={() => handleSort("price")}
+                >
+                  {"Price"}
+                </Button>
+              </TableCell>
               <TableCell>{"Update"}</TableCell>
-              <TableCell>{"Delete"}</TableCell> */}
+              <TableCell>{"Delete"}</TableCell>
             </TableRow>
           </TableHead>
 
@@ -184,6 +272,16 @@ const TodoTable = () => {
               )
               .map((todos, index) => (
                 <TableRow key={todos.id}>
+                  <TableCell>
+                    {
+                      <Checkbox
+                        checked={todos.isChecked}
+                        //onChange
+
+                        onClick={() => AddToCheckList(todos.id)}
+                      />
+                    }
+                  </TableCell>
                   <TableCell>{todos.id}</TableCell>
                   <TableCell>{todos.name}</TableCell>
 
