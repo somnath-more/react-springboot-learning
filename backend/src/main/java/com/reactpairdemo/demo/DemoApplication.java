@@ -15,5 +15,6 @@ public class DemoApplication {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
+// user have crud application
+	// user can have many education id,degree ,percentage, passing date ,shoolName pagination should work
 }
