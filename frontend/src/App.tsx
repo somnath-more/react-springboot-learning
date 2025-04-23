@@ -1,7 +1,9 @@
+import Dashboard from "./components/organisms/Dashboard";
+
 const App = () => {
     return (
       <>
-        <h1>Hello,World</h1>
+        <Dashboard/>
       </>
     )
   }

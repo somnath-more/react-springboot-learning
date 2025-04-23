@@ -1,19 +1,72 @@
 {
-  "posts": [
+  "products": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
+      "name": "Air cooler",
+      "manufacturer": "Panasonic",
+      "price": 18000
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "id": 2,
+      "name": "Washing Machine",
+      "manufacturer": "LG",
+      "price": 12000
+    },
+    {
+      "id": 3,
+      "name": "Fan",
+      "manufacturer": "Crompton",
+      "price": 2500
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "watchlist": [
+    {
+      "name": "Air cooler",
+      "manufacturer": "Panasonic",
+      "price": 18000,
+      "id": 1
+    },
+    {
+      "name": "Air cooler",
+      "manufacturer": "Panasonic",
+      "price": 18000,
+      "id": 2
+    },
+    {
+      "name": "Washing Machine",
+      "manufacturer": "LG",
+      "price": 12000,
+      "id": 3
+    },
+    {
+      "name": "Fan",
+      "manufacturer": "Crompton",
+      "price": 2500,
+      "id": 4
+    },
+    {
+      "name": "Air cooler",
+      "manufacturer": "Panasonic",
+      "price": 18000,
+      "id": 5
+    },
+    {
+      "name": "Air cooler",
+      "manufacturer": "Panasonic",
+      "price": 18000,
+      "id": 6
+    },
+    {
+      "name": "Fan",
+      "manufacturer": "Crompton",
+      "price": 2500,
+      "id": 7
+    },
+    {
+      "name": "Fan",
+      "manufacturer": "Crompton",
+      "price": 2500,
+      "id": 8
+    }
+  ]
 }
