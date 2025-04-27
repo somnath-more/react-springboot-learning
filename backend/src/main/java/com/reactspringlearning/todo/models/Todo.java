@@ -4,33 +4,17 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import java.util.Date;
-
 @Entity
-@Table(name = "todos")
 @Data
+@Table(name = "todos")
 public class Todo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Title should not be blank")
+    @NotBlank(message = "Title should not be empty")
     private String title;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date addedOn;
-
-    private String addedBy;
-
-    // Optional: Constructors
-    public Todo() {
-        this.addedOn = new Date(); // set default to current time
-    }
-
-    public Todo(String title, String addedBy) {
-        this.title = title;
-        this.addedBy = addedBy;
-        this.addedOn = new Date();
-    }
+    private String description;
+    private boolean completed;
 }

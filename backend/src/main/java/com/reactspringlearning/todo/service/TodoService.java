@@ -1,12 +1,13 @@
 package com.reactspringlearning.todo.service;
 
-import com.reactspringlearning.todo.dto.TodoDto;
+import com.reactspringlearning.todo.dto.TodoDTO;
 
 import java.util.List;
 
 public interface TodoService {
-     List<TodoDto> getAllTodos();
-     TodoDto addTodo(TodoDto todoDto);
-     TodoDto updateTodo(Long id, TodoDto todoDto);
+     TodoDTO createTodo(TodoDTO todoDTO);
+     TodoDTO getTodoById(Long id);
+     List<TodoDTO> getAllTodos();
+     TodoDTO updateTodo(Long id, TodoDTO todoDTO);
      void deleteTodo(Long id);
 }
